@@ -10,6 +10,7 @@ third_party {
     value: "https://github.com/etingof/pyasn1-modules"
   }
   version: "v0.2.8"
+  license_type: NOTICE
   last_upgrade_date {
     year: 2020
     month: 4
