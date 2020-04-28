@@ -3,8 +3,8 @@
 # This file is part of pyasn1-modules software.
 #
 # Created by Stanisław Pitucha with asn1ate tool.
-# Copyright (c) 2005-2019, Ilya Etingof <etingof@gmail.com>
-# License: http://snmplabs.com/pyasn1/license.html
+# Copyright (c) 2005-2017, Ilya Etingof <etingof@gmail.com>
+# License: http://pyasn1.sf.net/license.html
 #
 # Cryptographic Message Syntax (CMS)
 #
@@ -54,7 +54,7 @@ class SignedAttributes(univ.SetOf):
 
 
 SignedAttributes.componentType = Attribute()
-SignedAttributes.sizeSpec = constraint.ValueSizeConstraint(1, MAX)
+SignedAttributes.subtypeSpec = constraint.ValueSizeConstraint(1, MAX)
 
 
 class OtherRevocationInfoFormat(univ.Sequence):
@@ -309,7 +309,7 @@ class RecipientInfos(univ.SetOf):
 
 
 RecipientInfos.componentType = RecipientInfo()
-RecipientInfos.sizeSpec = constraint.ValueSizeConstraint(1, MAX)
+RecipientInfos.subtypeSpec = constraint.ValueSizeConstraint(1, MAX)
 
 
 class DigestAlgorithmIdentifier(rfc3280.AlgorithmIdentifier):
@@ -336,7 +336,7 @@ class UnprotectedAttributes(univ.SetOf):
 
 
 UnprotectedAttributes.componentType = Attribute()
-UnprotectedAttributes.sizeSpec = constraint.ValueSizeConstraint(1, MAX)
+UnprotectedAttributes.subtypeSpec = constraint.ValueSizeConstraint(1, MAX)
 
 
 class ContentType(univ.ObjectIdentifier):
@@ -430,7 +430,7 @@ class UnauthAttributes(univ.SetOf):
 
 
 UnauthAttributes.componentType = Attribute()
-UnauthAttributes.sizeSpec = constraint.ValueSizeConstraint(1, MAX)
+UnauthAttributes.subtypeSpec = constraint.ValueSizeConstraint(1, MAX)
 
 
 class ExtendedCertificateInfo(univ.Sequence):
@@ -550,7 +550,7 @@ class UnsignedAttributes(univ.SetOf):
 
 
 UnsignedAttributes.componentType = Attribute()
-UnsignedAttributes.sizeSpec = constraint.ValueSizeConstraint(1, MAX)
+UnsignedAttributes.subtypeSpec = constraint.ValueSizeConstraint(1, MAX)
 
 
 class SignatureValue(univ.OctetString):
@@ -632,7 +632,7 @@ class AuthAttributes(univ.SetOf):
 
 
 AuthAttributes.componentType = Attribute()
-AuthAttributes.sizeSpec = constraint.ValueSizeConstraint(1, MAX)
+AuthAttributes.subtypeSpec = constraint.ValueSizeConstraint(1, MAX)
 
 
 class AuthenticatedData(univ.Sequence):

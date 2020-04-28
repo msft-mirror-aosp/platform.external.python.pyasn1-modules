@@ -1,8 +1,8 @@
 #
 # This file is part of pyasn1-modules software.
 #
-# Copyright (c) 2005-2019, Ilya Etingof <etingof@gmail.com>
-# License: http://snmplabs.com/pyasn1/license.html
+# Copyright (c) 2005-2017, Ilya Etingof <etingof@gmail.com>
+# License: http://pyasn1.sf.net/license.html
 #
 # X.509 message syntax
 #
@@ -354,7 +354,7 @@ class TeletexDomainDefinedAttribute(univ.Sequence):
 
 class TeletexDomainDefinedAttributes(univ.SequenceOf):
     componentType = TeletexDomainDefinedAttribute()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, ub_domain_defined_attributes)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, ub_domain_defined_attributes)
 
 
 terminal_type = univ.Integer(23)
@@ -545,7 +545,7 @@ teletex_organizational_unit_names = univ.Integer(5)
 
 class TeletexOrganizationalUnitNames(univ.SequenceOf):
     componentType = TeletexOrganizationalUnitName()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, ub_organizational_units)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, ub_organizational_units)
 
 
 teletex_personal_name = univ.Integer(4)
@@ -601,7 +601,7 @@ class ExtensionAttribute(univ.Sequence):
 
 class ExtensionAttributes(univ.SetOf):
     componentType = ExtensionAttribute()
-    sizeSpec = univ.SetOf.sizeSpec + constraint.ValueSizeConstraint(1, ub_extension_attributes)
+    subtypeSpec = univ.SetOf.subtypeSpec + constraint.ValueSizeConstraint(1, ub_extension_attributes)
 
 
 class BuiltInDomainDefinedAttribute(univ.Sequence):
@@ -615,16 +615,16 @@ class BuiltInDomainDefinedAttribute(univ.Sequence):
 
 class BuiltInDomainDefinedAttributes(univ.SequenceOf):
     componentType = BuiltInDomainDefinedAttribute()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, ub_domain_defined_attributes)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, ub_domain_defined_attributes)
 
 
 class OrganizationalUnitName(char.PrintableString):
-    subtypeSpec = char.PrintableString.subtypeSpec + constraint.ValueSizeConstraint(1, ub_organizational_unit_name_length)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, ub_organizational_unit_name_length)
 
 
 class OrganizationalUnitNames(univ.SequenceOf):
     componentType = OrganizationalUnitName()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, ub_organizational_units)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, ub_organizational_units)
 
 
 class PersonalName(univ.Set):
@@ -771,7 +771,7 @@ id_ce_cRLNumber = univ.ObjectIdentifier('2.5.29.20')
 
 
 class CRLNumber(univ.Integer):
-    subtypeSpec = univ.Integer.subtypeSpec + constraint.ValueSizeConstraint(0, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(0, MAX)
 
 
 class BaseCRLNumber(CRLNumber):
@@ -796,7 +796,7 @@ class KeyPurposeId(univ.ObjectIdentifier):
 
 class ExtKeyUsageSyntax(univ.SequenceOf):
     componentType = KeyPurposeId()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 class ReasonFlags(univ.BitString):
@@ -925,7 +925,7 @@ class PolicyInformation(univ.Sequence):
 
 class CertificatePolicies(univ.SequenceOf):
     componentType = PolicyInformation()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 id_ce_policyMappings = univ.ObjectIdentifier('2.5.29.33')
@@ -940,7 +940,7 @@ class PolicyMapping(univ.Sequence):
 
 class PolicyMappings(univ.SequenceOf):
     componentType = PolicyMapping()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 id_ce_privateKeyUsagePeriod = univ.ObjectIdentifier('2.5.29.16')
@@ -1024,7 +1024,7 @@ class Attribute(univ.Sequence):
 
 class SubjectDirectoryAttributes(univ.SequenceOf):
     componentType = Attribute()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 class RelativeDistinguishedName(univ.SetOf):
@@ -1077,7 +1077,7 @@ class GeneralName(univ.Choice):
 
 class GeneralNames(univ.SequenceOf):
     componentType = GeneralName()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 class AccessDescription(univ.Sequence):
@@ -1089,7 +1089,7 @@ class AccessDescription(univ.Sequence):
 
 class AuthorityInfoAccessSyntax(univ.SequenceOf):
     componentType = AccessDescription()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 class AuthorityKeyIdentifier(univ.Sequence):
@@ -1125,7 +1125,7 @@ class DistributionPoint(univ.Sequence):
 
 class CRLDistPointsSyntax(univ.SequenceOf):
     componentType = DistributionPoint()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 class IssuingDistributionPoint(univ.Sequence):
@@ -1155,7 +1155,7 @@ class GeneralSubtree(univ.Sequence):
 
 class GeneralSubtrees(univ.SequenceOf):
     componentType = GeneralSubtree()
-    sizeSpec = univ.SequenceOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
+    subtypeSpec = univ.SequenceOf.subtypeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 class NameConstraints(univ.Sequence):
