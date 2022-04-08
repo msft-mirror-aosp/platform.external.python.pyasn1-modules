@@ -108,21 +108,27 @@ xicQmJP+VoMHo/ZpjFY9fYCjNZUArgKsEwK/s+p9yrVVeB1Nf8Mn
             namedtype.NamedType('Signature', univ.BitString())
         )
 
-        openTypeMap = {
-            # attributes
+        attributesMapUpdate = {
             univ.ObjectIdentifier('1.3.6.1.4.1.311.13.2.3'): char.IA5String(),
             univ.ObjectIdentifier('1.3.6.1.4.1.311.13.2.2'): EnrollmentCSP(),
             univ.ObjectIdentifier('1.3.6.1.4.1.311.21.20'): ClientInformation(),
-            # algorithm identifier parameters
+        }
+
+        rfc5652.cmsAttributesMap.update(rfc6402.cmcControlAttributesMap)
+        rfc5652.cmsAttributesMap.update(attributesMapUpdate)
+
+        algorithmIdentifierMapUpdate = {
             univ.ObjectIdentifier('1.2.840.113549.1.1.1'): univ.Null(""),
             univ.ObjectIdentifier('1.2.840.113549.1.1.5'): univ.Null(""),
             univ.ObjectIdentifier('1.2.840.113549.1.1.11'): univ.Null(""),
         }
 
-        openTypeMap.update(rfc5652.cmsAttributesMap)
-        openTypeMap.update(rfc6402.cmcControlAttributesMap)
+        rfc5280.algorithmIdentifierMap.update(algorithmIdentifierMapUpdate)
+
+        rfc5652.cmsContentTypesMap.update(rfc6402.cmsContentTypesMapUpdate)
 
         substrate = pem.readBase64fromText(self.pem_text)
+
         asn1Object, rest = der_decoder.decode(substrate,
             asn1Spec=rfc5652.ContentInfo(), decodeOpenTypes=True)
         assert not rest
@@ -134,7 +140,6 @@ xicQmJP+VoMHo/ZpjFY9fYCjNZUArgKsEwK/s+p9yrVVeB1Nf8Mn
         assert eci['eContentType'] == rfc6402.id_cct_PKIData
         pkid, rest = der_decoder.decode(eci['eContent'],
             asn1Spec=rfc5652.cmsContentTypesMap[eci['eContentType']],
-            openTypes=openTypeMap,
             decodeOpenTypes=True)
         assert not rest
         assert pkid.prettyPrint()
@@ -144,17 +149,17 @@ xicQmJP+VoMHo/ZpjFY9fYCjNZUArgKsEwK/s+p9yrVVeB1Nf8Mn
             cr = req['tcr']['certificationRequest']
 
             sig_alg = cr['signatureAlgorithm']
-            assert sig_alg['algorithm'] in openTypeMap.keys()
+            assert sig_alg['algorithm'] in rfc5280.algorithmIdentifierMap.keys()
             assert sig_alg['parameters'] == univ.Null("")
 
             cri = cr['certificationRequestInfo']
             spki_alg = cri['subjectPublicKeyInfo']['algorithm']
-            assert spki_alg['algorithm'] in openTypeMap.keys()
+            assert spki_alg['algorithm'] in rfc5280.algorithmIdentifierMap.keys()
             assert spki_alg['parameters'] == univ.Null("")
 
             attrs = cr['certificationRequestInfo']['attributes']
             for attr in attrs:
-                assert attr['attrType'] in openTypeMap.keys()
+                assert attr['attrType'] in rfc5652.cmsAttributesMap.keys()
                 if attr['attrType'] == univ.ObjectIdentifier('1.3.6.1.4.1.311.13.2.3'):
                     assert attr['attrValues'][0] == "6.2.9200.2"
                 else:

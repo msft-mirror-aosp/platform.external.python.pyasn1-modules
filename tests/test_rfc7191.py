@@ -89,6 +89,7 @@ goRV+bq4fdgOOj25JFqa80xnXGtQqjm/7NSII5SbdJk+DT7KCkSbkElkbgQ=
 
     def testOpenTypes(self):
         substrate = pem.readBase64fromText(self.message1_pem_text)
+        rfc5652.cmsAttributesMap.update(rfc7191.cmsAttributesMapUpdate)
         asn1Object, rest = der_decode (substrate,
                                        asn1Spec=self.asn1Spec,
                                        decodeOpenTypes=True)
@@ -164,6 +165,8 @@ bUcOYuCdivgxVuhlAgIxAPR9JavxziwCbVyBUWOAiKKYfglTgG3AwNmrKDj0NtXUQ9qDmGAc
 
     def testOpenTypes(self):
         substrate = pem.readBase64fromText(self.message2_pem_text)
+        rfc5652.cmsContentTypesMap.update(rfc7191.cmsContentTypesMapUpdate)
+        rfc5652.cmsAttributesMap.update(rfc7191.cmsAttributesMapUpdate)
         asn1Object, rest = der_decode (substrate,
                                        asn1Spec=self.asn1Spec,
                                        decodeOpenTypes=True)
@@ -251,6 +254,8 @@ iNF8uKtW/lk0AjA7z2q40N0lamXkSU7ECasiWOYV1X4cWGiQwMZDKknBPDqXqB6Es6p4J+qe
 
     def testOpenTypes(self):
         substrate = pem.readBase64fromText(self.message3_pem_text)
+        rfc5652.cmsContentTypesMap.update(rfc7191.cmsContentTypesMapUpdate)
+        rfc5652.cmsAttributesMap.update(rfc7191.cmsAttributesMapUpdate)
         asn1Object, rest = der_decode (substrate,
                                        asn1Spec=self.asn1Spec,
                                        decodeOpenTypes=True)
